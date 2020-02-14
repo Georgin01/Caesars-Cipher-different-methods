@@ -20,11 +20,13 @@ body{
 
 section{
     width: 50%;
+    height: 100%;
     position: relative;
 }
 
 .form{
     width: 100%;
+    height: 70%;
     text-align: center;
     position: absolute;
     top: 50%;
@@ -56,7 +58,7 @@ input {
     transition: border-bottom 300ms ease-in-out;
 }
 input::-webkit-input-placeholder{
-    color: #fff;
+    color: #E2CFC8;
 }
 
 input:focus {
@@ -68,6 +70,8 @@ p {
     color: #f9f9f9;
 }
 
-#output {
+#outputAlph, #outputUni {
     font-size: 30px;
+    width: 100%;
+    word-wrap: break-word
 }
