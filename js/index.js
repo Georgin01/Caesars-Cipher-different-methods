@@ -2,6 +2,12 @@
 const outputAlph = document.getElementById('outputAlph');
 const shiftAlph = Number(document.getElementById('shiftAlph').value);
 const messageAlph = document.getElementById('messageAlph').value;
+
+//Переменные используемые для вывода шифра(метод с юникодом)
+const outputUni = document.getElementById('outputUni');
+const shiftUni = Number(document.getElementById('shiftUni').value);
+const messageUni = document.getElementById('messageUni').value;
+
 //Объявление функции "алфавитного" шифра Цезаря
 function cipherAlphabet(input) {
     let text, shift, result = '';
@@ -55,8 +61,33 @@ function cipherAlphabet(input) {
     return result;
 }
 
+function cipherUnicode(input){
+    let text, shift, result = '';
+
+    //Проверяем аргумент функции. Если аргумент - объект присваиваем зарание объявленные переменные
+    if (typeof input === 'object'){
+        text = input.msg;
+        shift = input.shift;
+    }
+    else {
+        result = 'Error!';
+        return result;
+    }
+
+    //С помощью функций charCodeAt и fromCharCode получаем код символа введенной строки
+    //И приписываем к строке вывода символ с кодом сдвинутым на shift
+    for (let i=0; i<text.length; i++){
+        let code = text.charCodeAt(i);
+        result += String.fromCharCode(code + shift);
+    }
+    //Выводим результат
+    return result;
+}
+
 //Последующие операции служат для вывода закодированного и розшифрованного сообщения
-//"Вешаем обработчик на каждое событие и применяем функцию шифрования к объекту вывода"
+//"Вешаем" обработчик на каждое событие и применяем функцию шифрования к объекту вывода
+
+//Для метода с алфавитом
 document.getElementById("messageAlph").addEventListener("input", function(){
     let value = this.value;
     outputAlph.textContent = cipherAlphabet({
@@ -76,5 +107,28 @@ document.getElementById("decodeAlph").addEventListener("input", function(){
     outputAlph.textContent = cipherAlphabet({
         msg: value,
         shift: -shiftAlph
+    });
+});
+
+//Для метода с юникодом
+document.getElementById("messageUni").addEventListener("input", function(){
+    let value = this.value;
+    outputUni.textContent = cipherUnicode({
+        msg: value,
+        shift: shiftUni
+    });
+});
+document.getElementById("shiftUni").addEventListener("keyup", function(){
+    let value = Number(this.value);
+    outputUni.textContent = cipherUnicode({
+        msg: messageUni,
+        shift: value
+    })
+});
+document.getElementById("decodeUni").addEventListener("input", function(){
+    let value = this.value;
+    outputUni.textContent = cipherUnicode({
+        msg: value,
+        shift: -shiftUni
     });
 });
